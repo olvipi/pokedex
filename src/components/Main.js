@@ -1,75 +1,140 @@
-import React, { useState, useEffect } from "react";
-import Axios from "axios";
+import React, {useState, useEffect} from "react";
+import axios from "axios";
 import Navigation from "./Navigation";
 import SetLimit from "./SetLimit";
 import Search from "./Search";
 import PokemonList from "./PokemonList";
-import Pokemon from "./Pokemon";
+import SetType from "./SetType";
 
 export default function Main() {
   const url = "https://pokeapi.co/api/v2/";
-  const [pokemons, setPokemons] = useState(null);
-  const [pokemon, setPokemon] = useState(null);
+  const [pokemonsAll, setPokemonsAll] = useState([]);
+  const [pokemonsForDisplay, setPokemonsForDisplay] = useState([]);
   const [limit, setLimit] = useState(10);
-  const [offset, setOffset] = useState(0);
-  const [search, setSearch] = useState("");
+  const [firstItem, setFirstItem] = useState(0);
+  const [query, setQuery] = useState("");
+  const [/*type*/, setType] = useState(null);
+  // const [filteredByTypes, setFilteredByTypes] = useState([]);
+  const [filteredList, setFilteredList] = useState([]);
+  const [end, setEnd] = useState(0);
 
-  useEffect(() => {
-    async function fetchPokemonList() {
-      let urlPokemonsAll = `${url}pokemon/?offset=${offset}&limit=${limit}`;
-      const res = await Axios.get(urlPokemonsAll);
-      setPokemons(res.data["results"]);
-    }
-    fetchPokemonList();
-  }, [limit, offset]);
+  const colors = {
+    normal: "black",
+    fighting: "darkRed",
+    flying: "lightBlue",
+    poison: "purple",
+    ground: "peru",
+    rock: "grey",
+    bug: "green",
+    ghost: "thistle",
+    steel: "lightSteelBlue",
+    fire: "orangeRed",
+    water: "deepSkyBlue",
+    grass: "limeGreen",
+    electric: "gold",
+    psychic: "magenta",
+    ice: "skyBlue",
+    dragon: "blueViolet",
+    dark: "maroon",
+    fairy: "lightPink"
+  };
 
+  //Download data for all Pokemon
   useEffect(() => {
-    async function fetchPokemonByName() {
-      const searchUrl = `${url}pokemon/${search.toLowerCase()}/`;
-      if (searchUrl.includes("pokemon//")) return;
-      const resByName = await Axios.get(searchUrl);
-      setPokemon(resByName.data);
+    async function fetchAllPokemonsList() {
+      const res = await axios(`${url}pokemon/?limit=1000`);
+      setPokemonsAll(res.data["results"]);
     }
-    fetchPokemonByName();
-  }, [search]);
+    fetchAllPokemonsList();
+    console.log("Download data for all Pokemon");
+  }, []);
+
+
+  //Download data by type
+  // useEffect(() => {
+  //   (async function fetchPokemonsTypes() {
+  //     if (type) {
+  //       const res = await axios(`${url}type/${type.name}/`);
+  //       if (type.checked) setFilteredByTypes(res.data["pokemon"].map(item => item.pokemon))
+  //     }
+  //   })();
+  //   // fetchPokemonsTypes();
+  //
+  //   console.log("Download data by type");
+  // }, [type]);
+
+  // Cut arrays to display
+  useEffect(() => {
+    setEnd(pokemonsAll.length);
+    setPokemonsForDisplay(pokemonsAll.slice(firstItem, firstItem + limit));
+    console.log("Cut arrays to display");
+  }, [limit, firstItem, pokemonsAll]);
+
+  //Filter by name
+  useEffect(() => {
+    setFilteredList(
+      pokemonsAll.filter(pokemon => {
+        return pokemon.name.indexOf(query) > -1;
+      })
+    );
+    if (query.length > 2) {
+      setEnd(filteredList.length);
+      setFirstItem(0);
+    } else {
+      setEnd(pokemonsAll.length);
+    }
+    console.log("Filter by name");
+
+  }, [query, filteredList.length, pokemonsAll]);
+
+  //Filter by type
+  // useEffect(() => {
+  //   if (type && type.checked) setPokemonsForDisplay(filteredByTypes.slice(firstItem, firstItem + limit));
+  //   console.log(filteredByTypes);
+  // }, [filteredByTypes, type]);
 
   const onSetLimit = e => {
     setLimit(parseInt(e));
   };
 
-  const onSetOffsetIncrease = () => {
-    offset < 964 - limit ? setOffset(offset + limit) : setOffset(950);
+  const onIncrease = () => {
+    firstItem < end - limit ? setFirstItem(firstItem + limit) : setFirstItem(end - limit);
   };
 
-  const onSetOffsetDecrease = () => {
-    offset > limit ? setOffset(offset - limit) : setOffset(0);
+  const onDecrease = () => {
+    firstItem > limit ? setFirstItem(firstItem - limit) : setFirstItem(0);
   };
 
   const onSearch = e => {
-    setSearch(e);
+    setQuery(e.toLowerCase().trim());
+  };
+
+  const onSetType = e => {
+    setType(e);
   };
 
   return (
-    <div className="my-5">
-      <div className="row">
-        <div className="col-md-3">
+    <div className='my-5'>
+      <div className='row'>
+        <div className='col-md-3'>
           <Navigation
-            onSetOffsetIncrease={onSetOffsetIncrease}
-            onSetOffsetDecrease={onSetOffsetDecrease}
-            firstItem={offset}
-            lastItem={limit}
+            onIncrease={onIncrease}
+            onDecrease={onDecrease}
+            firstItem={firstItem}
+            limit={limit}
+            end={end}
           />
-
-          <Search onChangeInput={onSearch} />
-
-          <SetLimit onSetLimit={onSetLimit} />
+          <SetLimit onSetLimit={onSetLimit}/>
+          <Search onChangeInput={onSearch}/>
+          <SetType onSetType={onSetType} colors={colors}/>
         </div>
-        {!pokemon || search === "" ? (
-          <PokemonList pokemons={pokemons} />
-        ) : (
-          <Pokemon pokemon={pokemon} />
-        )}
+        <PokemonList
+          pokemonsForDisplay={
+            query.length < 3 ? pokemonsForDisplay : filteredList
+          }
+          colors={colors}
+        />
       </div>
     </div>
   );
-}
+};

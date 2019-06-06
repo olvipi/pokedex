@@ -2,20 +2,17 @@ import React from "react";
 import "./style.css";
 
 export default function Navigation(props) {
-  const onSetOffsetIncrease = props.onSetOffsetIncrease;
-  const onSetOffsetDecrease = props.onSetOffsetDecrease;
+  const onIncrease = props.onIncrease;
+  const onDecrease = props.onDecrease;
   const firstItem = props.firstItem + 1;
-  let lastItem = props.firstItem + props.lastItem;
-  if (lastItem > 964) {
-    lastItem = 964;
+  let lastItem = props.firstItem + props.limit;
+  if (lastItem > props.end) {
+    lastItem = props.end;
   }
 
   return (
     <div className="d-flex justify-content-around mt-2 ">
-      <span
-        className="arrow-prev align-self-center ml-5"
-        onClick={onSetOffsetDecrease}
-      >
+      <span className="arrow-prev align-self-center ml-5" onClick={onDecrease}>
         Prev
       </span>
       <div className="text-center">
@@ -23,12 +20,9 @@ export default function Navigation(props) {
         <br />
         Pokemons
         <br />
-        of 964
+        of {props.end}
       </div>
-      <span
-        className="arrow-next align-self-center mr-5"
-        onClick={onSetOffsetIncrease}
-      >
+      <span className="arrow-next align-self-center mr-5" onClick={onIncrease}>
         Next
       </span>
     </div>
