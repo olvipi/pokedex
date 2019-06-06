@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/pokedex/static/css/main.58266a16.chunk.css",
+    "main.js": "/pokedex/static/js/main.161fca00.chunk.js",
+    "main.js.map": "/pokedex/static/js/main.161fca00.chunk.js.map",
+    "runtime~main.js": "/pokedex/static/js/runtime~main.a0407843.js",
+    "runtime~main.js.map": "/pokedex/static/js/runtime~main.a0407843.js.map",
+    "static/css/2.266e55a5.chunk.css": "/pokedex/static/css/2.266e55a5.chunk.css",
+    "static/js/2.7e9d2fc7.chunk.js": "/pokedex/static/js/2.7e9d2fc7.chunk.js",
+    "static/js/2.7e9d2fc7.chunk.js.map": "/pokedex/static/js/2.7e9d2fc7.chunk.js.map",
+    "index.html": "/pokedex/index.html",
+    "precache-manifest.9a2b7e883bb29c92ee9752f0ca969071.js": "/pokedex/precache-manifest.9a2b7e883bb29c92ee9752f0ca969071.js",
+    "service-worker.js": "/pokedex/service-worker.js",
+    "static/css/2.266e55a5.chunk.css.map": "/pokedex/static/css/2.266e55a5.chunk.css.map",
+    "static/css/main.58266a16.chunk.css.map": "/pokedex/static/css/main.58266a16.chunk.css.map"
+  }
+}
