@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import uniqObjInArr from "../utils/uniqObjInArr"
 import Navigation from "./Navigation";
 import SetLimit from "./SetLimit";
 import Search from "./Search";
 import PokemonList from "./PokemonList";
 import SetType from "./SetType";
+
 
 export default function Main() {
   const url = "https://pokeapi.co/api/v2/";
@@ -144,8 +146,15 @@ export default function Main() {
   // Prepare to display filter by type
   useEffect(() => {
     if (filteredByTypes.length > 0) {
+      function compare (a, b){ 
+        return a.url.split("/")[a.url.split("/").length - 2] - b.url.split("/")[b.url.split("/").length - 2];
+      };
+    
+      const sorted = filteredByTypes.sort(compare);
+
+      const reduced = uniqObjInArr(sorted);
       
-      setTempList(filteredByTypes);
+      setTempList(reduced)
       setFirstItem(0);
     } else {
       setTempList(pokemonsAll);
@@ -163,7 +172,7 @@ export default function Main() {
             firstItem={firstItem}
             limit={limit}
             end={tempList.length}
-          />
+          />  
           <SetLimit onSetLimit={onSetLimit} />
           <Search onChangeInput={onSearch} />
           <SetType onSetType={onSetType} types={types} colors={colors} />
