@@ -6,6 +6,7 @@ import appStore from '../../store/Store'
 const Navigation = observer(() => {
   const onIncrease = () => appStore.onIncrease()
   const onDecrease = () => appStore.onDecrease()
+  const noSelection = e => e.preventDefault()
 
   //Different variables for empty search
   const textTrue = {
@@ -16,7 +17,11 @@ const Navigation = observer(() => {
 
   return (
     <div className='d-flex justify-content-around mt-2'>
-      <span className='arrow-prev align-self-center ml-5' onClick={onDecrease}>
+      <span
+        className='arrow-prev align-self-center ml-5'
+        onClick={onDecrease}
+        onMouseDown={noSelection}
+      >
         Prev
       </span>
       <div
@@ -29,7 +34,11 @@ const Navigation = observer(() => {
         <br />
         {appStore.end === 0 ? textFalse.end : textTrue.end}
       </div>
-      <span className='arrow-next align-self-center mr-5' onClick={onIncrease}>
+      <span
+        className='arrow-next align-self-center mr-5'
+        onClick={onIncrease}
+        onMouseDown={noSelection}
+      >
         Next
       </span>
     </div>
