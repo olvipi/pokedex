@@ -1,0 +1,40 @@
+transform(n)
+  -moz-transform: n
+  -ms-transform: n
+  -webkit-transform: n
+  -o-transform: n
+  transform: n
+
+.arrow-next
+  border: solid black
+  border-width: 0 3px 3px 0
+  display: inline-block
+  height: 50px
+  padding: 3px
+  transform: rotate(-45deg)
+  width: 50px
+
+  &:hover
+    cursor: pointer
+
+  &:active
+    border: solid blue
+    border-width: 0 3px 3px 0
+    color: blue
+
+.arrow-prev
+  border: solid black
+  border-width: 0 0 3px 3px
+  display: inline-block
+  height: 50px
+  padding: 3px
+  transform: rotate(45deg)
+  width: 50px
+
+  &:hover
+    cursor: pointer
+
+  &:active
+    border: solid blue
+    border-width: 0 0 3px 3px
+    color: blue

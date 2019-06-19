@@ -1,16 +1,34 @@
-import React, { Fragment } from "react";
-import Nav from "./components/Nav";
-import Main from "./components/Main";
-import Footer from "./components/Footer";
+import React from 'react'
+import appStore from './store/Store'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
-import "bootstrap/dist/css/bootstrap.min.css";
+import Nav from './components/Nav'
+import Footer from './components/Footer'
+import Navigation from './components//Navigation'
+import SetLimit from './components//SetLimit'
+import Search from './components//Search'
+import PokemonList from './components//PokemonList'
+import SetType from './components//SetType'
 
-export default function App() {
+const App = () => {
+  appStore.getAllPokemonsList()
+
   return (
-    <Fragment>
+    <>
       <Nav />
-      <Main />
+      <div className='my-5'>
+        <div className='row'>
+          <div className='col-md-3'>
+            <Navigation />
+            <SetLimit />
+            <Search />
+            <SetType />
+          </div>
+          <PokemonList />
+        </div>
+      </div>
       <Footer />
-    </Fragment>
-  );
+    </>
+  )
 }
+export default App

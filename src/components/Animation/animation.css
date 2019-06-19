@@ -2,7 +2,6 @@
   height: 96px;
   width: 96px;
 }
-
 .loading .letter {
   animation-name: loading;
   animation-duration: 1.6s;
@@ -12,9 +11,8 @@
 .letter {
   float: left;
   font-size: 14px;
-  color: #777;
+  color: #808080;
 }
-
 .l-1 {
   animation-delay: 0.48s;
 }
@@ -45,7 +43,30 @@
 .l-10 {
   animation-delay: 1.56s;
 }
-
+@-moz-keyframes loading {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes loading {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes loading {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 @keyframes loading {
   0% {
     opacity: 0;

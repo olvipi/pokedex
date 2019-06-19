@@ -1,24 +1,22 @@
-import React from "react";
+import React from 'react'
+import appStore from '../store/Store'
 
-export default function Search(props) {
-  function onSubmit(e) {
-    e.preventDefault();
-  }
+const Search = () => {
+  const onSubmit = e => e.preventDefault()
 
-  const onChangeInput = e => {
-    props.onChangeInput(e.target.value);
-  };
+  const onSearch = e => appStore.onSearch(e.target.value)
 
   return (
-    <form className="mt-3" onSubmit={onSubmit}>
-      <label htmlFor="search">Enter the Pokemon name for the search</label>
+    <form className='mt-3' onSubmit={onSubmit}>
+      <label htmlFor='search'>Enter the Pokemon name for the search</label>
       <input
-        type="text"
-        id="search"
-        placeholder="Pokemon"
-        className="form-control"
-        onChange={onChangeInput}
+        type='text'
+        id='search'
+        placeholder='Pokemon'
+        className='form-control'
+        onChange={onSearch}
       />
     </form>
-  );
+  )
 }
+export default Search

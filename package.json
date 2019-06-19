@@ -4,12 +4,17 @@
   "private": true,
   "homepage": "https://olvipi.github.io/pokedex",
   "dependencies": {
-    "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "mobx": "^5.10.1",
+    "mobx-react": "^6.0.3",
+    "mobx-react-lite": "^1.4.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "react-test-renderer": "^16.8.6"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -17,7 +22,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "format": "prettier-standard \"src/**/*.js\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -35,6 +41,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^2.0.1"
+    "gh-pages": "^2.0.1",
+    "prettier-standard": "^9.1.1"
   }
 }

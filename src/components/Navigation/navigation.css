@@ -1,39 +1,42 @@
 .arrow-next {
-  border: solid black;
+  border: solid #000;
   border-width: 0 3px 3px 0;
   display: inline-block;
   height: 50px;
   padding: 3px;
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
   transform: rotate(-45deg);
   width: 50px;
 }
-
 .arrow-next:hover {
   cursor: pointer;
 }
-
 .arrow-next:active {
-  border: solid blue;
+  border: solid #00f;
   border-width: 0 3px 3px 0;
-  color: blue;
+  color: #00f;
 }
-
 .arrow-prev {
-  border: solid black;
+  border: solid #000;
   border-width: 0 0 3px 3px;
   display: inline-block;
   height: 50px;
   padding: 3px;
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
   transform: rotate(45deg);
   width: 50px;
 }
-
 .arrow-prev:hover {
   cursor: pointer;
 }
-
 .arrow-prev:active {
-  border: solid blue;
+  border: solid #00f;
   border-width: 0 0 3px 3px;
-  color: blue;
+  color: #00f;
 }

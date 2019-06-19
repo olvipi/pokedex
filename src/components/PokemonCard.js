@@ -1,49 +1,46 @@
-import React, {useState, useEffect} from "react";
-import Axios from "axios";
-import Animation from "./Animation";
+import React, { useState, useEffect } from 'react'
+import { useLocalStore, useObserver } from 'mobx-react-lite'
+import Animation from './Animation'
 
-export default function PokemonCard(props) {
-  const name = props.name;
-  const url = `https://pokeapi.co/api/v2/pokemon/${props.name}/`;
-  const [pokemonRes, setPokemonRes] = useState(null);
-  const [imageUrl, setImageUrl] = useState(0);
-  const [pokemonTypes, setPokemonTypes] = useState([]);
-  const [pokemonStats, setPokemonStats] = useState([]);
-  const [imageLoading, setImageLoading] = useState(true);
+const PokemonCard = props => {
+  const [imageLoading, setImageLoading] = useState(true)
 
-  const imageStyle = imageLoading ? {display: "none"} : {display: "block"};
+  const localStore = useLocalStore(() => ({
+    pokemonTypes: null,
+    imageUrl: null,
+    pokemonStats: null,
+    setRes (data) {
+      this.pokemonTypes = data.types
+      this.imageUrl = data.sprites['front_default']
+      this.pokemonStats = data.stats.reverse()
+    }
+  }))
 
   useEffect(() => {
-    async function fetchPokemonRes() {
-      const getPokemonRes = await Axios.get(url);
-      setPokemonRes(getPokemonRes.data);
+    function getPokemonData () {
+      fetch(`https://pokeapi.co/api/v2/pokemon/${props.name}/`)
+        .then(res => res.json())
+        .then(data => localStore.setRes(data))
     }
+    getPokemonData()
+  }, [localStore, props.name])
 
-    fetchPokemonRes();
-  }, [url]);
-
-  useEffect(() => {
-    if (pokemonRes) {
-      setPokemonTypes(pokemonRes.types);
-      setImageUrl(pokemonRes.sprites["front_default"]);
-      setPokemonStats(pokemonRes.stats.reverse());
-    }
-  }, [pokemonRes]);
+  const imageStyle = imageLoading ? { display: 'none' } : { display: 'block' }
 
   const onImageLoaded = () => {
-    setImageLoading(false);
-  };
+    setImageLoading(false)
+  }
 
-  return (
+  return useObserver(() => (
     <div className='card mt-2'>
       <div className='card-header d-flex justify-content-between px-2'>
         <div className='align-self-center text-capitalize font-weight-bold font-italic text-left'>
-          {name}
+          {props.name}
         </div>
-        {imageLoading ? <Animation/> : null}
+        {imageLoading ? <Animation /> : null}
         <img
-          src={imageUrl || "./img/no-image.png"}
-          alt={name}
+          src={localStore.imageUrl ? localStore.imageUrl : './img/no-image.png'}
+          alt={props.name}
           style={imageStyle}
           onLoad={onImageLoaded}
         />
@@ -52,28 +49,34 @@ export default function PokemonCard(props) {
         <div className='d-flex justify-content-between'>
           <span>Types:</span>
           <div className='d-inline-flex justify-content-end'>
-            {pokemonTypes.map(pokemonType => (
-              <div
-                key={pokemonType.type.name}
-                className='border border-white badge badge-pill text-white text-capitalize'
-                style={{
-                  backgroundColor: `${props.colors[pokemonType.type.name]}`
-                }}
-              >
-                {pokemonType.type.name}
-              </div>
-            ))}
+            {localStore.pokemonTypes
+              ? localStore.pokemonTypes.map(type => (
+                  <div
+                    key={type.type.name}
+                    className='border border-white badge badge-pill text-white text-capitalize'
+                    style={{
+                      backgroundColor: `${props.store._colors[type.type.name]}`
+                    }}
+                  >
+                    {type.type.name}
+                  </div>
+                ))
+              : null}
           </div>
         </div>
-
-        {pokemonStats.map(stat => (
-          <div className='d-flex justify-content-between' key={stat.stat.name}>
-            <span className='text-capitalize'>{stat.stat.name}:</span>
-            <span>{stat["base_stat"]}</span>
-          </div>
-        ))}
-
+        {localStore.pokemonStats
+          ? localStore.pokemonStats.map(stat => (
+              <div
+                className='d-flex justify-content-between'
+                key={stat.stat.name}
+              >
+                <span className='text-capitalize'>{stat.stat.name}:</span>
+                <span>{stat['base_stat']}</span>
+              </div>
+            ))
+          : null}
       </div>
     </div>
-  );
+  ))
 }
+export default PokemonCard

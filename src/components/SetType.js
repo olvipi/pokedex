@@ -1,32 +1,38 @@
-import React from "react";
+import React from 'react'
+import appStore from '../store/Store'
 
-export default function SetType(props) {
+const SetType = () => {
   const onHandleSubmit = e => {
-    e.preventDefault();
-  };
+    e.preventDefault()
+  }
 
   const onSetTypes = e => {
-    props.onSetType(e.target);
-  };
+    appStore.onSetType(e.target)
+    appStore.getPokemonsTypes()
+  }
 
   return (
-    <div className="card mt-3">
-      <div className="card-header">Filter by types</div>
-      <div className="card-body">
+    <div className='card mt-3'>
+      <div className='card-header'>Filter by types</div>
+      <div className='card-body'>
         <form onSubmit={onHandleSubmit}>
-          {props.types.map(type => (
-            <div key={type} className="custom-control custom-checkbox badge-pill mb-1 text-white" style={{
-              backgroundColor: `${props.colors[type]}`
-            }}>
+          {appStore._types.map(type => (
+            <div
+              key={type}
+              className='custom-control custom-checkbox badge-pill mb-1 text-white'
+              style={{
+                backgroundColor: `${appStore._colors[type]}`
+              }}
+            >
               <input
-                type="checkbox"
-                className="custom-control-input"
+                type='checkbox'
+                className='custom-control-input'
                 id={type}
                 name={type}
                 onChange={onSetTypes}
               />
               <label
-                className="custom-control-label text-capitalize"
+                className='custom-control-label text-capitalize'
                 htmlFor={type}
               >
                 {type}
@@ -36,5 +42,6 @@ export default function SetType(props) {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
+export default SetType

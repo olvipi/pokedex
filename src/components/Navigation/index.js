@@ -1,39 +1,38 @@
-import React from "react";
-import "./style.css";
+import React from 'react'
+import './navigation.css'
+import { observer } from 'mobx-react-lite'
+import appStore from '../../store/Store'
 
-export default function Navigation(props) {
-  const onIncrease = props.onIncrease;
-  const onDecrease = props.onDecrease;
-  const firstItem = props.firstItem + 1;
-  let lastItem = props.firstItem + props.limit;
-  if (lastItem > props.end) {
-    lastItem = props.end;
-  }
+const Navigation = observer(() => {
+  const onIncrease = () => appStore.onIncrease()
+  const onDecrease = () => appStore.onDecrease()
+
   //Different variables for empty search
   const textTrue = {
-    start: `${firstItem} - ${lastItem}`,
-    end: `of ${props.end}`
-  };
-  const textFalse = { start: "There are no", end: "for display" };
+    start: `${appStore.firstItem + 1} - ${appStore.lastItem}`,
+    end: `of ${appStore.end}`
+  }
+  const textFalse = { start: 'There are no', end: 'for display' }
 
   return (
-    <div className="d-flex justify-content-around mt-2">
-      <span className="arrow-prev align-self-center ml-5" onClick={onDecrease}>
+    <div className='d-flex justify-content-around mt-2'>
+      <span className='arrow-prev align-self-center ml-5' onClick={onDecrease}>
         Prev
       </span>
       <div
-        className="text-center"
-        style={props.end === 0 ? { color: "red" } : { color: "black" }}
+        className='text-center'
+        style={appStore.end === 0 ? { color: 'red' } : { color: 'black' }}
       >
-        {props.end === 0 ? textFalse.start : textTrue.start}
+        {appStore.end === 0 ? textFalse.start : textTrue.start}
         <br />
-        Pokemon{props.end === 1 ? (``) : (`s`)}
+        Pokemon{appStore.end === 1 ? `` : `s`}
         <br />
-        {props.end === 0 ? textFalse.end : textTrue.end}
+        {appStore.end === 0 ? textFalse.end : textTrue.end}
       </div>
-      <span className="arrow-next align-self-center mr-5" onClick={onIncrease}>
+      <span className='arrow-next align-self-center mr-5' onClick={onIncrease}>
         Next
       </span>
     </div>
-  );
-}
+  )
+})
+export default Navigation
