@@ -8,7 +8,7 @@ const Navigation = observer(() => {
   const onDecrease = () => appStore.onDecrease()
   const noSelection = e => e.preventDefault()
 
-  //Different variables for empty search
+  // Different variables for empty search
   const textTrue = {
     start: `${appStore.firstItem + 1} - ${appStore.lastItem}`,
     end: `of ${appStore.end}`

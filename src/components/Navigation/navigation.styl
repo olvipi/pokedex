@@ -5,36 +5,37 @@ transform(n)
   -o-transform: n
   transform: n
 
-.arrow-next
-  border: solid black
-  border-width: 0 3px 3px 0
-  display: inline-block
-  height: 50px
-  padding: 3px
-  transform: rotate(-45deg)
-  width: 50px
-
-  &:hover
-    cursor: pointer
-
-  &:active
-    border: solid blue
+.arrow
+  &-next
+    display: inline-block
+    height: 50px
+    width: 50px
+    padding: 3px
+    border: solid black
     border-width: 0 3px 3px 0
-    color: blue
+    transform: rotate(-45deg)
 
-.arrow-prev
-  border: solid black
-  border-width: 0 0 3px 3px
-  display: inline-block
-  height: 50px
-  padding: 3px
-  transform: rotate(45deg)
-  width: 50px
+    &:hover
+      cursor: pointer
 
-  &:hover
-    cursor: pointer
+    &:active
+      color: blue
+      border: solid @color
+      border-width: 0 3px 3px 0
 
-  &:active
-    border: solid blue
+  &-prev
+    display: inline-block
+    height: 50px
+    width: 50px
+    padding: 3px
+    border: solid black
     border-width: 0 0 3px 3px
-    color: blue
+    transform: rotate(45deg)
+
+    &:hover
+      cursor: pointer
+
+    &:active
+      color: blue
+      border: solid @color
+      border-width: 0 0 3px 3px
