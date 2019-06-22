@@ -1,38 +1,39 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useLocalStore, useObserver } from 'mobx-react-lite'
+import { configure, runInAction } from 'mobx'
 import Animation from './Animation'
 
 const PokemonCard = props => {
+  configure({ enforceActions: 'observed' })
+
   const [imageLoading, setImageLoading] = useState(true)
 
   const localStore = useLocalStore(() => ({
     pokemonTypes: null,
     imageUrl: null,
     pokemonStats: null,
-    setRes (data) {
-      this.pokemonTypes = data.types
-      this.imageUrl = data.sprites['front_default']
-      this.pokemonStats = data.stats.reverse()
+    getPokemonData () {
+      fetch(`https://pokeapi.co/api/v2/pokemon/${props.name}/`)
+        .then(res => res.json())
+        .then(data => {
+          runInAction(() => {
+            this.pokemonTypes = data.types
+            this.imageUrl = data.sprites['front_default']
+            this.pokemonStats = data.stats.reverse()
+          })
+        })
     }
   }))
 
-  useEffect(() => {
-    function getPokemonData () {
-      fetch(`https://pokeapi.co/api/v2/pokemon/${props.name}/`)
-        .then(res => res.json())
-        .then(data => localStore.setRes(data))
-    }
-    getPokemonData()
-  }, [localStore, props.name])
+  const getPokemonData = localStore.getPokemonData
 
   const imageStyle = imageLoading ? { display: 'none' } : { display: 'block' }
 
   const onImageLoaded = () => {
     setImageLoading(false)
   }
-
   return useObserver(() => (
-    <div className='card mt-2'>
+    <div className='card mt-2' onLoad={getPokemonData}>
       <div className='card-header d-flex justify-content-between px-2'>
         <div className='align-self-center text-capitalize font-weight-bold font-italic text-left'>
           {props.name}
